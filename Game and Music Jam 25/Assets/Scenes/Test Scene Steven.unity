@@ -152,10 +152,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea5430666e10a6d479e31dc67b88e951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::test_player_obj
-  limitX: -115
+  limitMinusX: -115
+  limitX: 0
   playerSpeed: 15
-  camera: {fileID: 355161850}
-  offset: {x: 0, y: 0, z: -20}
+  jumpForce: 0
+  camera_object: {fileID: 355161850}
+  camera_offset: {x: 0, y: 0, z: -20}
 --- !u!23 &83297145
 MeshRenderer:
   m_ObjectHideFlags: 0
