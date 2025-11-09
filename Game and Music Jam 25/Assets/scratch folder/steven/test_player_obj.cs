@@ -10,6 +10,7 @@ public class test_player_obj : MonoBehaviour
     public float limitMinusX;
     public float limitX;
     public float playerSpeed;
+    public float jumpForce;
 
     // Camera object will follow player. Offset is used to ensure the camera is sufficiently
     // far out so as to see surrounding map.
