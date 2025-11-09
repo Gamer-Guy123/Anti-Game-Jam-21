@@ -2,12 +2,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
 
     [SerializeField] float moveSpeed;
 
     Rigidbody rigidBody;
-    private InputAction _move;
+    private InputAction input;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
@@ -17,6 +18,23 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector2 move = input.ReadValue<Vector2>();
+        Debug.Log(move);
+        input.ReadValue<float>();
         
+    }
+
+    private void Awake()
+    {
+        input = new InputAction();
+    }
+
+    private void OnEnable()
+    {
+        input.Enable();
+    }
+    private void OnDisable()
+    {
+        input.Disable();
     }
 }
