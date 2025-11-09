@@ -2,12 +2,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
-    
-
-    [SerializeField] float moveSpeed;
+    private Vector2 move;
+    [SerializeField] float moveSpeed = 5f;
 
     Rigidbody rigidBody;
-    private InputAction input;
+    private InputAction playerControls;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,23 +17,26 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 move = input.ReadValue<Vector2>();
+        move = playerControls.ReadValue<Vector2>();
         Debug.Log(move);
-        input.ReadValue<float>();
         
     }
 
     private void Awake()
     {
-        input = new InputAction();
+        playerControls = new InputAction();
     }
 
     private void OnEnable()
     {
-        input.Enable();
+        playerControls.Enable();
     }
     private void OnDisable()
     {
-        input.Disable();
+        playerControls.Disable();
+    }
+    private void FixedUpdate()
+    {
+        rigidBody.angularVelocity = new Vector2(move.x * moveSpeed, move.y * moveSpeed);
     }
 }
