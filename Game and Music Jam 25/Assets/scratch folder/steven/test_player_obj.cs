@@ -7,21 +7,37 @@ public class test_player_obj : MonoBehaviour
 
     //bounds for the map -x and x so player cannot move out of frame
     [Header("Movement Settings")]
+    [Tooltip("The farthest left player object can go. Adjust to prevent moving out of frame")]
     public float limitMinusX;
+    [Tooltip("The farthest right player object can go. Adjust to prevent moving out of frame")]
     public float limitX;
+    [Tooltip("Float representing normal player speed.")]
     public float playerSpeed;
+    [Tooltip("Float that is part of calculation for determining the force used to push player object up when jumping.")]
     public float jumpForce;
 
     // Camera object will follow player. Offset is used to ensure the camera is sufficiently
     // far out so as to see surrounding map.
     [Header("Camera Settings")]
     public GameObject camera_object;
+    [Tooltip("Set the offset from player object for the camera. Negative z is farther away from player.")]
     public Vector3 camera_offset;
+
+    // Misc settings
+    [Header("Misc Settings")]
+    [Tooltip("Ground layer. Select the layer used for the ground object on the top right corner of the inspector tab.")]
+    public LayerMask groundLayerMask;
+    [Tooltip("Float representing space between center of player object and selected ground layer. 1.3 is sweetspot for capsule model.")]
+    public float groundTolerance;
 
     // Private objects such as the player object's rigidbody and a vector used to calculate movement.
     // These don't show in the inspector tab.
     private Rigidbody playerObject;
     private Vector3 move;
+
+    // isPlayerGrounded will help us determine if the player is on the ground and can jump. If
+    // false, then the player is in the air and therefore cannot jump
+    private bool isPlayerGrounded = true;
 
     
     void Start()
@@ -35,6 +51,9 @@ public class test_player_obj : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Layer 3 (top right corner of the inspector tab) was set to ground. For this to work, the "walking surface" must
+        // be set to layer 3.
+        isPlayerGrounded = Physics.CheckSphere(playerObject.position, groundTolerance, groundLayerMask);
 
     }
 
@@ -73,6 +92,14 @@ public class test_player_obj : MonoBehaviour
 
         /*TODO:*/
         // Add jump function
+
+        if(Keyboard.current.spaceKey.isPressed && isPlayerGrounded)
+        {
+            playerObject.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+        }
+
+
         // Add secondary movement functions such as climbing or entering door/action
 
 
