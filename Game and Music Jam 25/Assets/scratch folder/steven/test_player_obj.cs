@@ -39,21 +39,29 @@ public class test_player_obj : MonoBehaviour
     // false, then the player is in the air and therefore cannot jump
     private bool isPlayerGrounded = true;
 
-    
+
     void Start()
     {
         // Get an instance of the Rigidbody component of the player object
-        playerObject = GetComponent<Rigidbody>();   
+        playerObject = GetComponent<Rigidbody>();
 
 
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        // If the player object collides with an object on the ground layer, we set isPlayerGrounded to true
+        isPlayerGrounded = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        // If the player object leaves collision with an object on the ground layer, we set isPlayerGrounded to false
+        isPlayerGrounded = false;
+    }
     // Update is called once per frame
     void Update()
     {
-        // Layer 3 (top right corner of the inspector tab) was set to ground. For this to work, the "walking surface" must
-        // be set to layer 3.
-        isPlayerGrounded = Physics.CheckSphere(playerObject.position, groundTolerance, groundLayerMask);
 
     }
 
@@ -88,24 +96,20 @@ public class test_player_obj : MonoBehaviour
             playerObject.MovePosition((playerSpeed * move * Time.fixedDeltaTime) + playerObject.position);
             camera_object.transform.position = playerObject.position + camera_offset;
         }
-        
+
 
         /*TODO:*/
         // Add jump function
 
-        if(Keyboard.current.spaceKey.isPressed && isPlayerGrounded)
+        if (Keyboard.current.spaceKey.isPressed && isPlayerGrounded)
         {
             playerObject.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
         }
 
-
+        //lock player movement and rotation within the plane.
+        //playerObject.AddForce(new Vector3(0, 0, -playerObject.position.z), ForceMode.Impulse);
         // Add secondary movement functions such as climbing or entering door/action
-
-
-        
-    
-
 
     }
 
