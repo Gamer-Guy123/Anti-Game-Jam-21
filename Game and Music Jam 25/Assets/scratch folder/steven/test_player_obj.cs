@@ -46,22 +46,14 @@ public class test_player_obj : MonoBehaviour
         playerObject = GetComponent<Rigidbody>();
 
 
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        // If the player object collides with an object on the ground layer, we set isPlayerGrounded to true
-        isPlayerGrounded = true;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        // If the player object leaves collision with an object on the ground layer, we set isPlayerGrounded to false
-        isPlayerGrounded = false;
+    
     }
     // Update is called once per frame
     void Update()
     {
+        isPlayerGrounded = Physics.CheckSphere(playerObject.position, groundTolerance, groundLayerMask);
+
+
 
     }
 
