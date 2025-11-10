@@ -715,7 +715,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91db7f8319b422b4096a6a034e78de5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::main_menu_script
-  backgroundAudioSource: {fileID: 0}
+  backgroundAudioSource: {fileID: 1682221679}
+  firstLevelScene: 0
+  aboutLevelScene: 1
 --- !u!1 &1274242013
 GameObject:
   m_ObjectHideFlags: 0
