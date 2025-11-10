@@ -46,14 +46,14 @@ public class test_player_obj : MonoBehaviour
         playerObject = GetComponent<Rigidbody>();
 
 
-    
     }
+
     // Update is called once per frame
     void Update()
     {
+        // Layer 3 (top right corner of the inspector tab) was set to ground. For this to work, the "walking surface" must
+        // be set to layer 3.
         isPlayerGrounded = Physics.CheckSphere(playerObject.position, groundTolerance, groundLayerMask);
-
-
 
     }
 
@@ -64,7 +64,7 @@ public class test_player_obj : MonoBehaviour
         // Here we handle player movement
         // Movement vector is reset every FixedUpdate() call
         move = Vector3.zero;
-        
+
         // Add or subtract one to the movement vector depending on direction of travel
         if (Keyboard.current.dKey.isPressed)
         {
@@ -99,9 +99,13 @@ public class test_player_obj : MonoBehaviour
 
         }
 
-        //lock player movement and rotation within the plane.
-        //playerObject.AddForce(new Vector3(0, 0, -playerObject.position.z), ForceMode.Impulse);
+
         // Add secondary movement functions such as climbing or entering door/action
+
+
+
+
+
 
     }
 
