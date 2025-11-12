@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class player_physics : MonoBehaviour
+public class test_player_obj : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
