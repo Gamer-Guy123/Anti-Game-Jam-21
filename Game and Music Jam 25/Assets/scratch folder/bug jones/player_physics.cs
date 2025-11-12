@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class test_player_obj : MonoBehaviour
+public class player_physics : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -67,10 +67,15 @@ public class test_player_obj : MonoBehaviour
         isPlayerGrounded = false;
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        // If the player object stays in collision with an object on the ground layer, we set isPlayerGrounded to true
+        isPlayerGrounded = true;
+    }
     private void respawn(Vector3 respawnPoint)
     {
         playerObject.Move(respawnPoint, playerObject.rotation);
-        playerObject.AddForce(playerObject.linearVelocity*-1, ForceMode.VelocityChange);
+        playerObject.AddForce(playerObject.linearVelocity * -1, ForceMode.VelocityChange);
         camera_object.transform.position = playerObject.position + camera_offset;
     }
     // Update is called once per frame
