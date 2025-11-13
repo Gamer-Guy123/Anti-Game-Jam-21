@@ -58,7 +58,8 @@ public class player_physics : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // If the player object collides with an object on the ground layer, we set isPlayerGrounded to true
-        isPlayerGrounded = true;
+        if (other.gameObject.tag != "Finish")
+        { isPlayerGrounded = true; }
     }
 
     private void OnTriggerExit(Collider other)
@@ -133,19 +134,16 @@ public class player_physics : MonoBehaviour
             if (Keyboard.current.shiftKey.isPressed)
             {
                 playerObject.AddForce((playerAcceleration * move * Time.fixedDeltaTime * 1.9f) + Vector3.up*upwardsComp*onGround, ForceMode.Impulse);
-                camera_object.transform.position = playerObject.position + camera_offset;
             }
             else
             {
                 playerObject.AddForce((playerAcceleration * move * Time.fixedDeltaTime) + Vector3.up*upwardsComp*onGround, ForceMode.Impulse);
-                camera_object.transform.position = playerObject.position + camera_offset;
             }
         }
         else
         {
             // If the player object has exceeded maxRunSpeed, the camera should still follow the player object
             playerObject.AddForce(Vector3.up * upwardsComp * onGround, ForceMode.Impulse);
-            camera_object.transform.position = playerObject.position + camera_offset;
         }
 
         /*TODO:*/
@@ -157,7 +155,8 @@ public class player_physics : MonoBehaviour
 
         }
 
-
+        //camera_object.transform.position = playerObject.position + camera_offset;
+        camera_object.transform.position = new Vector3(playerObject.position.x, Mathf.Clamp(playerObject.position.y, 5, 40), camera_offset.z);
         // Add secondary movement functions such as climbing or entering door/action
 
 
