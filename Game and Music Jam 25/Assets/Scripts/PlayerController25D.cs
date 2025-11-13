@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,7 +47,7 @@ public class playercontroller2_5d : MonoBehaviour
         // Get an instance of the Rigidbody component of the player object
         playerObject = GetComponent<Rigidbody>();
 
-
+        
     }
 
     // Update is called once per frame
@@ -104,9 +106,14 @@ public class playercontroller2_5d : MonoBehaviour
 
 
 
-
-
-
+        
+    }
+    //Player death event. The destroy event destroys the attached game object while the number is a delay until the object is destroyed
+    public void Death() 
+    { 
+        Debug.Log("Player Died");
+        Destroy(gameObject, 1); 
     }
 
+    
 }
