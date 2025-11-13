@@ -21,9 +21,9 @@ public class main_menu_script : MonoBehaviour
 
     [Header("Main Menu Scene Indices")]
     [Tooltip("Default index for main menu is 0.")]
-    public int firstLevelScene;
+    public string firstLevelScene;
     [Tooltip("Default index for main menu is 1.")]
-    public int aboutLevelScene;
+    public string aboutLevelScene;
 
 
     // Custom methods
