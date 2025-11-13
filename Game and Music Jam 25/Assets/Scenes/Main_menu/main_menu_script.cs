@@ -17,6 +17,8 @@ public class main_menu_script : MonoBehaviour
     // Recommended that we use the following order: 0 - Main menu, 1 - About, 2 - First Level, 3 and up - Subsequent levels.
     // The reason for this is we was to increment level integer by one everytime the player moves forward. We reserve
     // Levels 1 and 2 for UI purposes.
+
+
     [Header("Main Menu Scene Indices")]
     [Tooltip("Default index for main menu is 0.")]
     public int firstLevelScene;
