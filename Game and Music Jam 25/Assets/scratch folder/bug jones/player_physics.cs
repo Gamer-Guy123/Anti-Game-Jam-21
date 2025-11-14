@@ -51,15 +51,22 @@ public class player_physics : MonoBehaviour
     public float groundTolerance;
 
     public GameObject player_model;
+
+    [Header("Player Sprites")]
+    public int walkAnimationSpeed;
+    public Sprite player_idle_sprite;
+    public Sprite player_run_sprite1;
+    public Sprite player_run_sprite2;
+    public Sprite player_jump_sprite;
     // Private objects such as the player object's rigidbody and a vector used to calculate movement.
     // These don't show in the inspector tab.
     private Rigidbody playerObject;
     private Vector3 move;
-
+    private Vector3 facingDirection = Vector3.right;
     // isPlayerGrounded will help us determine if the player is on the ground and can jump. If
     // false, then the player is in the air and therefore cannot jump
     private bool isPlayerGrounded = true;
-
+    private int walkAnimationCounter;
     [Header("Game UI Settings")]
     [Tooltip("Select the canvas object for the scene.")]
     public TMP_Text scoreDisplay;
@@ -69,13 +76,14 @@ public class player_physics : MonoBehaviour
     {
         // Get an instance of the Rigidbody component of the player object
         playerObject = GetComponent<Rigidbody>();
-        
+        walkAnimationCounter = walkAnimationSpeed;
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
         // If the player object collides with an object on the ground layer, we set isPlayerGrounded to true
+        var playerSprite = player_model.GetComponent<SpriteRenderer>();
         if (other.gameObject.tag != "Finish")
         { 
             isPlayerGrounded = true; 
@@ -105,6 +113,27 @@ public class player_physics : MonoBehaviour
         playerObject.AddForce(playerObject.linearVelocity * -1, ForceMode.VelocityChange);
         camera_object.transform.position = playerObject.position + camera_offset;
     }
+
+/*
+    private void walkAnimation(SpriteRenderer playerSprite)
+    {
+
+        walkAnimationCounter--;
+        if (walkAnimationCounter == 0)
+        {
+            playerSprite.sprite = playerSprite.sprite == player_run_sprite1 ? player_run_sprite2 : player_run_sprite1;
+            walkAnimationCounter = walkAnimationSpeed;
+        }
+        if (Mathf.Abs(playerObject.linearVelocity.x) > 0.2f && isPlayerGrounded)
+        {
+            walkAnimation(playerSprite);
+        }
+        else
+        {
+            playerSprite.sprite = player_idle_sprite;
+        }
+    }
+*/
     // Update is called once per frame
     void Update()
     {
@@ -123,6 +152,7 @@ public class player_physics : MonoBehaviour
 
         // Here we handle player movement
         // Movement vector is reset every FixedUpdate() call
+        
         if (playerObject.position.y < -10)
         {
             respawn(respawnPoint);
@@ -139,22 +169,33 @@ public class player_physics : MonoBehaviour
         {
             move.x = -1;
         }
-        var playerRenderer = player_model.GetComponent<Renderer>();
+        var playerSprite = player_model.GetComponent<SpriteRenderer>();
         if (move.x == 0)
         {
-            playerRenderer.material.SetColor("_BaseColor", Color.red);
             if (isPlayerGrounded)
             {
-                playerObject.AddForce(new Vector3(playerObject.linearVelocity.x*-1*fakeFriction*Time.fixedDeltaTime, 0, 0 ), ForceMode.Impulse);
+                playerObject.AddForce(new Vector3(playerObject.linearVelocity.x * -1 * fakeFriction * Time.fixedDeltaTime, 0, 0), ForceMode.Impulse);
             }
-        }
-        else if (playerObject.linearVelocity.x >= currentMaxSpeed || playerObject.linearVelocity.x <= -currentMaxSpeed)
+        } else
         {
-            playerRenderer.material.SetColor("_BaseColor", Color.yellow);
+            if (move != facingDirection)
+            {
+                playerSprite.flipX = !playerSprite.flipX;
+            }
+            facingDirection = move;
         }
-        else
+        
+        if (Mathf.Abs(playerObject.linearVelocity.x) > 0.2f && isPlayerGrounded)
         {
-            playerRenderer.material.SetColor("_BaseColor", Color.green);
+            walkAnimationCounter--;
+            if (walkAnimationCounter == 0)
+            {
+                playerSprite.sprite = playerSprite.sprite == player_run_sprite1 ? player_run_sprite2 : player_run_sprite1;
+                walkAnimationCounter = walkAnimationSpeed;
+            }
+        } else if (isPlayerGrounded)
+        {
+            playerSprite.sprite = player_idle_sprite;
         }
         var onGround = isPlayerGrounded ? 2 : -4f;
         // Only Apply Force if the player object is within maxRunSpeed bounds or if the player is slowing down
@@ -181,7 +222,7 @@ public class player_physics : MonoBehaviour
         if (Keyboard.current.spaceKey.isPressed && isPlayerGrounded)
         {
             playerObject.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
+            playerSprite.sprite = player_jump_sprite;
         }
 
         //camera_object.transform.position = playerObject.position + camera_offset;
@@ -209,7 +250,7 @@ public class player_physics : MonoBehaviour
         // Not all variables are used in this method but are left here in case they can be used.
 
         // Set the text for the keys collected UI display. Yen symbol is place holder.
-        scoreDisplay.text = numKeyCollected + "¥";
+        scoreDisplay.text = numKeyCollected + "ï¿½";
 
         string healthDisplayText = "";
 
