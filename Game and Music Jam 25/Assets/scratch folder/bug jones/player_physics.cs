@@ -147,7 +147,8 @@ public class player_physics : MonoBehaviour
     // Movement should be calculated here to avoid stutter
     void FixedUpdate()
     {
-        updatePlayerStats();
+        //Needs work to fix this function.
+        //updatePlayerStats();
 
 
         // Here we handle player movement
@@ -235,48 +236,48 @@ public class player_physics : MonoBehaviour
 
 
     }
+    // Needs work to fix this function
+//    private void updatePlayerStats()
+//    {
 
-    private void updatePlayerStats()
-    {
+//        // Variables containing player stats. These are handled by the GameManager object which is a
+//        // physical object in the tutorial scene which persists while the game is running. This preserves
+//        // these stats as global variables.
+//        bool glitchyEffect = GameManager.instance.glitchyUIActive;
+//        int playerSpeed = GameManager.instance.playerSpeed;
+//        int numKeyCollected = GameManager.instance.numberOfKeysCollected;
+//        int playerHealth = GameManager.instance.health;
 
-        // Variables containing player stats. These are handled by the GameManager object which is a
-        // physical object in the tutorial scene which persists while the game is running. This preserves
-        // these stats as global variables.
-        bool glitchyEffect = GameManager.instance.glitchyUIActive;
-        int playerSpeed = GameManager.instance.playerSpeed;
-        int numKeyCollected = GameManager.instance.numberOfKeysCollected;
-        int playerHealth = GameManager.instance.health;
+//        // Not all variables are used in this method but are left here in case they can be used.
 
-        // Not all variables are used in this method but are left here in case they can be used.
+//        // Set the text for the keys collected UI display. Yen symbol is place holder.
+//        scoreDisplay.text = numKeyCollected + "�";
 
-        // Set the text for the keys collected UI display. Yen symbol is place holder.
-        scoreDisplay.text = numKeyCollected + "�";
+//        string healthDisplayText = "";
 
-        string healthDisplayText = "";
-
-        // We use case switch to set the right text for health display based on the lives remaining (0 - 3).
-        // Default is a fallback case.
-        switch (playerHealth)
-        {
-            case 0:
-                healthDisplayText = "Health:";
-                break;
-            case 1:
-                healthDisplayText = "Health: X";
-                break;
-            case 2:
-                healthDisplayText = "Health: XX";
-                break;
-            case 3:
-                healthDisplayText = "Health: XXX";
-                break;
-            default:
-                healthDisplayText = "NULL";
-                break;
+//        // We use case switch to set the right text for health display based on the lives remaining (0 - 3).
+//        // Default is a fallback case.
+//        switch (playerHealth)
+//        {
+//            case 0:
+//                healthDisplayText = "Health:";
+//                break;
+//            case 1:
+//                healthDisplayText = "Health: X";
+//                break;
+//            case 2:
+//                healthDisplayText = "Health: XX";
+//                break;
+//            case 3:
+//                healthDisplayText = "Health: XXX";
+//                break;
+//            default:
+//                healthDisplayText = "NULL";
+//                break;
 
 
-        }
+//        }
 
-        healthDisplay.text = healthDisplayText;
-}
+//        healthDisplay.text = healthDisplayText;
+//}
 }
