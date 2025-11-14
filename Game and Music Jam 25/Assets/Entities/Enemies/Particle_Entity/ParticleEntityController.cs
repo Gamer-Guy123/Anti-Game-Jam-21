@@ -19,6 +19,7 @@ public class ParticleEntityController : MonoBehaviour
     private float R;
     private float G;
     private float B;
+    private float alpha;
     private int colorIndex;
     private int colorStep;
 
@@ -106,11 +107,14 @@ public class ParticleEntityController : MonoBehaviour
         //This block of code handles the occilating appearace of this entity     
         if(colorIndex == 0)
         {
-            if (colorStep < 10)
+            if (colorStep < 100)
             {
-                R = R + 0.1f;
-                G = G - 0.1f;
+                B = 1.0f;
+                R = 0.0f;
+                G = 0.85f;
+                alpha = alpha + 0.01f;
                 colorStep++;
+
             }
             else
             {
@@ -121,8 +125,10 @@ public class ParticleEntityController : MonoBehaviour
         {
             if (colorStep > 0)
             {
-                R = R - 0.1f;
-                G = G + 0.1f;
+                B = 1.0f;
+                R = 0.0f;
+                G = 0.85f;
+                alpha = alpha - 0.01f;
                 colorStep--;
             }
             else
@@ -132,7 +138,7 @@ public class ParticleEntityController : MonoBehaviour
 
         }
 
-        particleEntityRenderer.material.color = new Color(R, G, B);
+        particleEntityRenderer.material.color = new Color(R, G, B, alpha);
 
     }
 
