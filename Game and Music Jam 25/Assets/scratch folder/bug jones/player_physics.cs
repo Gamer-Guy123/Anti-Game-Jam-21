@@ -1,3 +1,6 @@
+using System;
+using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,8 +14,19 @@ public class player_physics : MonoBehaviour
     public float limitMinusX;
     [Tooltip("The farthest right player object can go. Adjust to prevent moving out of frame")]
     public float limitX;
+    [Header("Reduced Speed (1)")]
+    public float playerReducedSpeedX;
+    [Header("Reduced Speed (2)")]
+    public float playerReducedSpeedXX;
     [Tooltip("Float representing normal player speed.")]
+    [Header("Normal Speed (3)")]
     public float playerAcceleration;
+    [Header("Increased Speed (4)")]
+    public float playerIncreasedSpeedX;
+    [Header("Normal Speed (5)")]
+    public float playerIncreasedSpeedXX;
+
+
     [Tooltip("Float that is part of calculation for determining the force used to push player object up when jumping.")]
     public float jumpForce;
 
@@ -53,6 +67,10 @@ public class player_physics : MonoBehaviour
     // false, then the player is in the air and therefore cannot jump
     private bool isPlayerGrounded = true;
     private int walkAnimationCounter;
+    [Header("Game UI Settings")]
+    [Tooltip("Select the canvas object for the scene.")]
+    public TMP_Text scoreDisplay;
+    public TMP_Text healthDisplay;
 
     void Start()
     {
@@ -67,7 +85,15 @@ public class player_physics : MonoBehaviour
         // If the player object collides with an object on the ground layer, we set isPlayerGrounded to true
         var playerSprite = player_model.GetComponent<SpriteRenderer>();
         if (other.gameObject.tag != "Finish")
-        { isPlayerGrounded = true; }
+        { 
+            isPlayerGrounded = true; 
+        }
+
+        if(other.name == "particleProjectile")
+        {
+            GameManager.instance.reducePlayerHealth();
+        }
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -121,6 +147,9 @@ public class player_physics : MonoBehaviour
     // Movement should be calculated here to avoid stutter
     void FixedUpdate()
     {
+        updatePlayerStats();
+
+
         // Here we handle player movement
         // Movement vector is reset every FixedUpdate() call
         
@@ -207,4 +236,47 @@ public class player_physics : MonoBehaviour
 
     }
 
+    private void updatePlayerStats()
+    {
+
+        // Variables containing player stats. These are handled by the GameManager object which is a
+        // physical object in the tutorial scene which persists while the game is running. This preserves
+        // these stats as global variables.
+        bool glitchyEffect = GameManager.instance.glitchyUIActive;
+        int playerSpeed = GameManager.instance.playerSpeed;
+        int numKeyCollected = GameManager.instance.numberOfKeysCollected;
+        int playerHealth = GameManager.instance.health;
+
+        // Not all variables are used in this method but are left here in case they can be used.
+
+        // Set the text for the keys collected UI display. Yen symbol is place holder.
+        scoreDisplay.text = numKeyCollected + "�";
+
+        string healthDisplayText = "";
+
+        // We use case switch to set the right text for health display based on the lives remaining (0 - 3).
+        // Default is a fallback case.
+        switch (playerHealth)
+        {
+            case 0:
+                healthDisplayText = "Health:";
+                break;
+            case 1:
+                healthDisplayText = "Health: X";
+                break;
+            case 2:
+                healthDisplayText = "Health: XX";
+                break;
+            case 3:
+                healthDisplayText = "Health: XXX";
+                break;
+            default:
+                healthDisplayText = "NULL";
+                break;
+
+
+        }
+
+        healthDisplay.text = healthDisplayText;
+}
 }
