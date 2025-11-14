@@ -451,7 +451,7 @@ MonoBehaviour:
     m_Bits: 0
   groundTolerance: 0
   player_model: {fileID: 83297142}
-  walkAnimationSpeed: 15
+  walkAnimationSpeed: 0
   player_idle_sprite: {fileID: 21300000, guid: 9f810b97b6f321f499c75521c5ea9f9c, type: 3}
   player_run_sprite1: {fileID: 21300000, guid: 5dfda3a89b677634b9b85f06212dfc09, type: 3}
   player_run_sprite2: {fileID: 21300000, guid: c4bedfa61d9bd5743bbb203d2f1b087a, type: 3}
